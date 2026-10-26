@@ -34,7 +34,7 @@ Run the automated checks with `npm test`. Use `npm run test:watch` during develo
 ## Reservation behavior
 
 1. Choose a local-calendar date from today through 90 days ahead.
-2. Available times update with the date. Past times today and locally reserved times are excluded.
+2. The parent reservation page owns the available-time state and passes it to the child BookingForm. Available times update with the date. Past times today and locally reserved times are excluded.
 3. Select 1–10 guests and enter a name and valid email address.
 4. Submit. Invalid fields receive associated error text and focus moves to the first invalid field.
 5. A valid reservation is saved once, then a confirmation is displayed. Already reserved slots cannot be selected again in this browser.

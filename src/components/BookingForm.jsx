@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchAPI, submitAPI } from '../api.js';
 import { localDate, lastBookingDate, validateBooking } from '../booking.js';
 
-export default function BookingForm({onSuccess}) {
+export default function BookingForm({onSuccess, availableTimes, onAvailableTimesChange}) {
   const [values,setValues]=useState({date:localDate(),time:'',guests:'2',occasion:'None',name:'',email:'',requests:''});
-  const [times,setTimes]=useState([]);
+  const times=availableTimes;
+  const setTimes=onAvailableTimesChange;
   const [errors,setErrors]=useState({});
   const [loading,setLoading]=useState(true);
   const [submitting,setSubmitting]=useState(false);
@@ -17,7 +18,7 @@ export default function BookingForm({onSuccess}) {
     setLoading(true);
     fetchAPI(values.date).then(slots=>{if(active) setTimes(slots);}).catch(()=>{if(active){setTimes([]);setFailure('We couldn’t load available times. Check browser storage permissions, then try again.');}}).finally(()=>{if(active)setLoading(false);});
     return ()=>{active=false;};
-  },[values.date,retry]);
+  },[values.date,retry,setTimes]);
   function change(event) {
     const {name,value}=event.target;
     if(name==='date')setFailure('');
